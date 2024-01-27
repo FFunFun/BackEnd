@@ -56,7 +56,7 @@ public class SignService {
 
     private void checkDuplicatedUid(String uid) {
         if (userRepository.existsByUid(uid)) {
-            throw new RuntimeException("duplicated uid");
+            throw new IllegalArgumentException("duplicated uid");
         }
     }
 }
