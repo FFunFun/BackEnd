@@ -33,8 +33,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/sign").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/sign/**").permitAll() // Sign 관련 요청은 누구나 접근 가능
+                        .anyRequest().authenticated()) // 그 외의 요청은 인증된 회원만 접근 가능
 
                 .build();
     }
