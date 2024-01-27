@@ -14,6 +14,7 @@ public class UserSignUpDto {
 
     public User toUser() {
         return User.builder()
+                .uid(uid)
                 .name(name)
                 .password(password)
                 .build();

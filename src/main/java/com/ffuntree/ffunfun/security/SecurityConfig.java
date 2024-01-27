@@ -1,4 +1,4 @@
-package com.ffuntree.ffunfun.config;
+package com.ffuntree.ffunfun.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,9 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/sign/**").permitAll() // Sign 관련 요청은 누구나 접근 가능
+                        // 로그인, 회원가입 요청은 누구나 가능
+                        .requestMatchers("api/v1/sign/sign-in").permitAll()
+                        .requestMatchers("api/v1/sign/sign-up").permitAll()
                         .anyRequest().authenticated()) // 그 외의 요청은 인증된 회원만 접근 가능
 
                 .build();
