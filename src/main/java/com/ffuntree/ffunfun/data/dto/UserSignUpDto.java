@@ -1,7 +1,10 @@
 package com.ffuntree.ffunfun.data.dto;
 
+import com.ffuntree.ffunfun.data.AcademicStatus;
 import com.ffuntree.ffunfun.data.User;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class UserSignUpDto {
@@ -17,6 +20,8 @@ public class UserSignUpDto {
                 .uid(uid)
                 .name(name)
                 .password(password)
+                .roles(List.of("ROLE_USER"))
+                .academicStatus(AcademicStatus.ATTENDING)
                 .build();
     }
 
