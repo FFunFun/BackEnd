@@ -20,7 +20,6 @@ public class UserSignUpDto {
                 .uid(uid)
                 .name(name)
                 .password(password)
-                .roles(List.of("ROLE_USER"))
                 .academicStatus(AcademicStatus.ATTENDING)
                 .build();
     }
