@@ -1,0 +1,28 @@
+spring:
+  # H2 Setting Info (H2 Console? ???? ?? ???? ??)
+  h2:
+    console:
+      enabled: true  # H2 Console? ???? ?? (H2 Console? H2 Database? UI? ????? ??)
+      path: /h2-console  # H2 Console? Path
+  # Database Setting Info (Database? H2? ???? ?? H2?? ?? ??)
+  datasource:
+    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:tcp://localhost/~/test
+    url: jdbc:h2:mem:testdb # in-memory mode
+    username: sa
+    password:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #  show_sql: true
+        format_sql: true
+        use_sql_comments: true # sql ? ?? jpql ??????  ???? ??
+
+server:
+  port: 8080
+
+jwt:
+  secret: asd43brwktb45klmsfghsklfgmkl45lhkjfkfdgh56rtyh
