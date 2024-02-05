@@ -1,21 +1,23 @@
 package com.ffuntree.ffunfun.exception;
 
 import com.ffuntree.ffunfun.data.dto.ErrorResponseDto;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class AuthorizationExceptionHandler {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponseDto> handleIllegalArgumentException(IllegalArgumentException exception) {
+    @ExceptionHandler(AuthorizationServiceException.class)
+    public ResponseEntity<ErrorResponseDto> handleAuthenticationException(AuthorizationServiceException exception) {
         return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
     }
 
-    @ExceptionHandler(MissingRequestHeaderException.class)
-    public ResponseEntity<ErrorResponseDto> handleMissingRequestHeaderException(MissingRequestHeaderException exception) {
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ErrorResponseDto> handleSignatureException(JwtException exception) {
         return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
     }
+
 }
