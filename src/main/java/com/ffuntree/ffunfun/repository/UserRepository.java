@@ -1,6 +1,6 @@
 package com.ffuntree.ffunfun.repository;
 
-import com.ffuntree.ffunfun.data.User;
+import com.ffuntree.ffunfun.data.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

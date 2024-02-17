@@ -1,6 +1,6 @@
 package com.ffuntree.ffunfun.exception;
 
-import com.ffuntree.ffunfun.data.dto.ErrorResponseDto;
+import com.ffuntree.ffunfun.data.common.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
