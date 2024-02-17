@@ -1,4 +1,4 @@
-package com.ffuntree.ffunfun.data;
+package com.ffuntree.ffunfun.data.user;
 
 import lombok.Getter;
 

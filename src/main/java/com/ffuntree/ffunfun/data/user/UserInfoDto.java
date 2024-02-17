@@ -1,6 +1,5 @@
-package com.ffuntree.ffunfun.data.dto;
+package com.ffuntree.ffunfun.data.user;
 
-import com.ffuntree.ffunfun.data.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

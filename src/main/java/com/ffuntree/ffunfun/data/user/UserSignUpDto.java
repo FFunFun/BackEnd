@@ -1,7 +1,5 @@
-package com.ffuntree.ffunfun.data.dto;
+package com.ffuntree.ffunfun.data.user;
 
-import com.ffuntree.ffunfun.data.AcademicStatus;
-import com.ffuntree.ffunfun.data.User;
 import lombok.Getter;
 
 import java.util.List;

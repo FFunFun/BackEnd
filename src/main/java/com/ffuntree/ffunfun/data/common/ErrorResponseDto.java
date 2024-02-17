@@ -1,4 +1,4 @@
-package com.ffuntree.ffunfun.data.dto;
+package com.ffuntree.ffunfun.data.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
