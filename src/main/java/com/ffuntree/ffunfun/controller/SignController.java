@@ -1,8 +1,8 @@
 package com.ffuntree.ffunfun.controller;
 
-import com.ffuntree.ffunfun.data.dto.TokenInfo;
-import com.ffuntree.ffunfun.data.dto.UserSignInDto;
-import com.ffuntree.ffunfun.data.dto.UserSignUpDto;
+import com.ffuntree.ffunfun.data.common.TokenInfo;
+import com.ffuntree.ffunfun.data.user.UserSignInDto;
+import com.ffuntree.ffunfun.data.user.UserSignUpDto;
 import com.ffuntree.ffunfun.service.SignService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.ffuntree.ffunfun.security;
 
-import com.ffuntree.ffunfun.data.dto.TokenInfo;
+import com.ffuntree.ffunfun.data.common.TokenInfo;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

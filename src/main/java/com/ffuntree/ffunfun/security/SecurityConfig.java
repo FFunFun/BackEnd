@@ -40,7 +40,8 @@ public class SecurityConfig {
                         // 로그인, 회원가입 요청은 누구나 가능
                         .requestMatchers("api/v1/sign/sign-in").permitAll()
                         .requestMatchers("api/v1/sign/sign-up").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("api/v1/sign/social/**").permitAll()
+                        .anyRequest().permitAll())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 

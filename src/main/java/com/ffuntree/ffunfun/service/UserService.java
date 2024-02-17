@@ -1,8 +1,8 @@
 package com.ffuntree.ffunfun.service;
 
 
-import com.ffuntree.ffunfun.data.User;
-import com.ffuntree.ffunfun.data.dto.UserInfoDto;
+import com.ffuntree.ffunfun.data.user.User;
+import com.ffuntree.ffunfun.data.user.UserInfoDto;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import com.ffuntree.ffunfun.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
 package com.ffuntree.ffunfun.service;
 
-import com.ffuntree.ffunfun.data.User;
-import com.ffuntree.ffunfun.data.dto.TokenInfo;
-import com.ffuntree.ffunfun.data.dto.UserSignInDto;
-import com.ffuntree.ffunfun.data.dto.UserSignUpDto;
+import com.ffuntree.ffunfun.data.user.User;
+import com.ffuntree.ffunfun.data.common.TokenInfo;
+import com.ffuntree.ffunfun.data.user.UserSignInDto;
+import com.ffuntree.ffunfun.data.user.UserSignUpDto;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import com.ffuntree.ffunfun.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

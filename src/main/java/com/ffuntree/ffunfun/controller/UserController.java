@@ -1,6 +1,6 @@
 package com.ffuntree.ffunfun.controller;
 
-import com.ffuntree.ffunfun.data.dto.UserInfoDto;
+import com.ffuntree.ffunfun.data.user.UserInfoDto;
 import com.ffuntree.ffunfun.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

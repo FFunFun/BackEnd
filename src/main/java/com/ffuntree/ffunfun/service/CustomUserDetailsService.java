@@ -24,7 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     // 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 리턴
-    private UserDetails createUserDetails(com.ffuntree.ffunfun.data.User user) {
+    private UserDetails createUserDetails(com.ffuntree.ffunfun.data.user.User user) {
         return User.builder()
                 .username(user.getUid())
                 .password(passwordEncoder.encode(user.getPassword()))
