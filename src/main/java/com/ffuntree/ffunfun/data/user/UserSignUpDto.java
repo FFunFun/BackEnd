@@ -7,7 +7,7 @@ import java.util.List;
 @Getter
 public class UserSignUpDto {
 
-    private String uid;
+    private String email;
 
     private String name;
 
@@ -15,7 +15,7 @@ public class UserSignUpDto {
 
     public User toUser() {
         return User.builder()
-                .uid(uid)
+                .email(email)
                 .name(name)
                 .password(password)
                 .academicStatus(AcademicStatus.ATTENDING)

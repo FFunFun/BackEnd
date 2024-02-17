@@ -28,7 +28,7 @@ public class SignService {
     public TokenInfo signIn(UserSignInDto userSignInDto) {
         log.info("[SignService] userSignInDto: {}", userSignInDto);
 
-        String id = userSignInDto.getUid();
+        String id = userSignInDto.getEmail();
         String password = userSignInDto.getPassword();
 
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
@@ -49,14 +49,15 @@ public class SignService {
 
     @Transactional
     public void signUp(UserSignUpDto signUpDto) {
-        checkDuplicatedUid(signUpDto.getUid());
+        checkDuplicatedEmail(signUpDto.getEmail());
         User user = signUpDto.toUser();
         userRepository.save(user);
     }
 
-    private void checkDuplicatedUid(String uid) {
-        if (userRepository.existsByUid(uid)) {
-            throw new IllegalArgumentException("duplicated uid");
+    private void checkDuplicatedEmail(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("duplicated email");
         }
     }
+
 }

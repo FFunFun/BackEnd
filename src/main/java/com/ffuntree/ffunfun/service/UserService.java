@@ -17,7 +17,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     public UserInfoDto getUser(String accessToken) {
-        User user = userRepository.findByUid(getUsernameFromToken(accessToken)).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        User user = userRepository.findByEmail(getUsernameFromToken(accessToken)).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         return UserInfoDto.of(user);
     }
 

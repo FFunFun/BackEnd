@@ -24,9 +24,9 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    // 유저의 로그인에 사용할 uid (user id), password
-    @Column(name = "uid")
-    private String uid;
+    // 유저의 로그인에 사용할 uid (user id) -> email, password
+    @Column(name = "email")
+    private String email;
 
     private String password;
 
@@ -62,7 +62,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return uid;
+        return email;
     }
 
     @Override

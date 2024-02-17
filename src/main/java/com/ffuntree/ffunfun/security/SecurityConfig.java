@@ -11,7 +11,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.InitBinder;
 
 @Slf4j
 @Configuration
@@ -41,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("api/v1/sign/sign-in").permitAll()
                         .requestMatchers("api/v1/sign/sign-up").permitAll()
                         .requestMatchers("api/v1/sign/social/**").permitAll()
+                        .requestMatchers("api/v1/sign/social/google").permitAll()
                         .anyRequest().permitAll())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
