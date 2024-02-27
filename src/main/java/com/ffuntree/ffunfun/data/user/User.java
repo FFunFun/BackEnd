@@ -46,6 +46,10 @@ public class User implements UserDetails {
     @Column(name = "academic_status")
     private AcademicStatus academicStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "social_type")
+    private SocialType socialType;
+
     @Column(name = "profile_image")
     private String profileImage;
 

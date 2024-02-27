@@ -5,22 +5,20 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class UserSignUpDto {
+public class SocialSignUpDto {
 
     private String email;
 
     private String name;
 
-    private String password;
-
-    public User toUser() {
+    public User toUser(String password, SocialType socialType) {
         return User.builder()
                 .email(email)
                 .name(name)
                 .password(password)
-                .socialType(SocialType.NONE)
                 .academicStatus(AcademicStatus.ATTENDING)
                 .roles(List.of("USER"))
+                .socialType(socialType)
                 .build();
     }
 
