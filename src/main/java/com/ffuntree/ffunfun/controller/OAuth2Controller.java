@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,7 +25,10 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/google/sign-up")
-    public void googleRegister(@RequestBody SocialSignUpDto socialSignUpDto) {
+    public void googleRegister(@RequestParam("email") String email,
+                               @RequestParam("name") String name,
+                               @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
+        SocialSignUpDto socialSignUpDto = new SocialSignUpDto(email, name, profileImage);
         socialLoginService.socialSignUp(socialSignUpDto, SocialType.GOOGLE);
     }
 

@@ -1,6 +1,7 @@
 package com.ffuntree.ffunfun.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.ffuntree.ffunfun.data.common.FileProperty;
 import com.ffuntree.ffunfun.data.common.TokenInfo;
 import com.ffuntree.ffunfun.data.oauth2.GoogleUserResourceDto;
 import com.ffuntree.ffunfun.data.oauth2.OAuth2JwtTokenResponse;
@@ -29,6 +30,7 @@ public class SocialLoginService {
     private final UserRepository userRepository;
     private final SignService signService;
     private final PasswordGenerator passwordGenerator;
+    private final FileUploadService fileUploadService;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String clientId;
@@ -90,12 +92,18 @@ public class SocialLoginService {
 
     public void socialSignUp(SocialSignUpDto socialSignUpDto, SocialType socialType) {
         String randomPassword = passwordGenerator.generateRandomPassword();
-        log.info("[SocialLoginService] randomPassword: {}", randomPassword);
         log.info("[SocialLoginService] socialSignUpDto: {}", socialSignUpDto.getEmail());
         log.info("[SocialLoginService] socialType: {}", socialType);
         log.info("[SocialLoginService] socialSignUpDto: {}", socialSignUpDto.getName());
         checkDuplicatedEmail(socialSignUpDto.getEmail());
-        userRepository.save(socialSignUpDto.toUser(randomPassword, socialType));
+
+        FileProperty fileProperty = null;
+
+        if (socialSignUpDto.getProfileImage() != null) {
+            fileProperty = fileUploadService.saveFile(socialSignUpDto.getProfileImage());
+        }
+
+        userRepository.save(socialSignUpDto.toUser(randomPassword, socialType, fileProperty));
     }
 
     private void checkDuplicatedEmail(String email) {
