@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -66,6 +67,16 @@ public class FileUploadService {
         try {
             Path filePath = fileStorageLocation.resolve(fileName).normalize();
             return Files.readAllBytes(filePath);
+        } catch (Exception e) {
+            throw new RuntimeException("File not found " + fileName, e);
+        }
+    }
+
+    public String loadFileAsBase64(String fileName) {
+        try {
+            Path filePath = fileStorageLocation.resolve(fileName).normalize();
+            byte[] fileByteArray = Files.readAllBytes(filePath);
+            return Base64.getEncoder().encodeToString(fileByteArray);
         } catch (Exception e) {
             throw new RuntimeException("File not found " + fileName, e);
         }

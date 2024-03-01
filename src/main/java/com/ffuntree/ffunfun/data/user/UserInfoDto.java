@@ -13,13 +13,13 @@ public class UserInfoDto {
     private Long id;
     private String email;
     private String studentEmail;
-    private byte[] profileImage;
+    private String encodedProfileImageForBase64;
 
-    public static UserInfoDto of(User user, byte[] profileImage) {
+    public static UserInfoDto of(User user, String encodedProfileImageForBase64) {
         return UserInfoDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .profileImage(profileImage)
+                .encodedProfileImageForBase64(encodedProfileImageForBase64)
                 .studentEmail(user.getStudentEmail())
                 .build();
     }

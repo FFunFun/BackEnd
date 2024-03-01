@@ -20,11 +20,11 @@ public class UserService {
 
     public UserInfoDto getUser(String accessToken) {
         User user = userRepository.findByEmail(getUsernameFromToken(accessToken)).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        byte[] profileImage = null;
+        String encodedProfileImage = null;
         if (user.getProfileImage() != null) {
-            profileImage = fileUploadService.loadFileAsByteArray(user.getProfileImage().getFilename());
+            encodedProfileImage = fileUploadService.loadFileAsBase64(user.getProfileImage().getFilename());
         }
-        return UserInfoDto.of(user, profileImage);
+        return UserInfoDto.of(user, encodedProfileImage);
     }
 
     public String getUsernameFromToken(String token) {
