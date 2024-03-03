@@ -17,16 +17,12 @@ public class SocialSignUpDto {
 
     private MultipartFile profileImage;
 
-    public User toUser(String password, SocialType socialType, FileProperty profileImage) {
-        return User.builder()
+    public UserSignUpDto toUserSignUpDto(String password) {
+        return UserSignUpDto.builder()
                 .email(email)
                 .name(name)
                 .password(password)
-                .academicStatus(AcademicStatus.ATTENDING)
                 .profileImage(profileImage)
-                .roles(List.of("USER"))
-                .socialType(socialType)
                 .build();
     }
-
 }

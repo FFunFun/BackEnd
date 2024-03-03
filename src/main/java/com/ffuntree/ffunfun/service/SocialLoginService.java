@@ -30,7 +30,6 @@ public class SocialLoginService {
     private final UserRepository userRepository;
     private final SignService signService;
     private final PasswordGenerator passwordGenerator;
-    private final FileUploadService fileUploadService;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String clientId;
@@ -92,23 +91,6 @@ public class SocialLoginService {
 
     public void socialSignUp(SocialSignUpDto socialSignUpDto, SocialType socialType) {
         String randomPassword = passwordGenerator.generateRandomPassword();
-        log.info("[SocialLoginService] socialSignUpDto: {}", socialSignUpDto.getEmail());
-        log.info("[SocialLoginService] socialType: {}", socialType);
-        log.info("[SocialLoginService] socialSignUpDto: {}", socialSignUpDto.getName());
-        checkDuplicatedEmail(socialSignUpDto.getEmail());
-
-        FileProperty fileProperty = null;
-
-        if (socialSignUpDto.getProfileImage() != null) {
-            fileProperty = fileUploadService.saveFile(socialSignUpDto.getProfileImage());
-        }
-
-        userRepository.save(socialSignUpDto.toUser(randomPassword, socialType, fileProperty));
-    }
-
-    private void checkDuplicatedEmail(String email) {
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("duplicated email");
-        }
+        signService.signUp(socialSignUpDto.toUserSignUpDto(randomPassword), socialType);
     }
 }
