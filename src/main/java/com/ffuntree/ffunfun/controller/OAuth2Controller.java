@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/sign/social")
+@RequestMapping("api/v1/user/social")
 public class OAuth2Controller {
 
     private final SocialLoginService socialLoginService;

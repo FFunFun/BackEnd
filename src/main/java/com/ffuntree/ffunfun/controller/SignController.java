@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@RequestMapping("api/v1/sign")
+@RequestMapping("api/v1/user")
 @RestController
 public class SignController {
 
