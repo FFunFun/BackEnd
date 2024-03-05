@@ -31,4 +31,8 @@ public class UserService {
         return jwtTokenProvider.getAuthentication(token).getName();
     }
 
+    public void withdrawal(String accessToken) {
+        User user = userRepository.findByEmail(getUsernameFromToken(accessToken)).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+        userRepository.delete(user);
+    }
 }
