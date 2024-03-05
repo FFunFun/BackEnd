@@ -18,18 +18,19 @@ public class OAuth2Controller {
 
     private final SocialLoginService socialLoginService;
 
-    @GetMapping("/google/sign-in")
+    @PostMapping("/google/sign-in")
     public ResponseEntity<OAuth2LoginResponse> googleLogin(@RequestParam("code") String code) {
         OAuth2LoginResponse oAuth2LoginResponse = socialLoginService.socialLogin(code);
         return ResponseEntity.ok(oAuth2LoginResponse);
     }
 
     @PostMapping("/google/sign-up")
-    public void googleRegister(@RequestParam("email") String email,
+    public String googleRegister(@RequestParam("email") String email,
                                @RequestParam("name") String name,
                                @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
         SocialSignUpDto socialSignUpDto = new SocialSignUpDto(email, name, profileImage);
         socialLoginService.socialSignUp(socialSignUpDto, SocialType.GOOGLE);
+        return "signUp success";
     }
 
 }
