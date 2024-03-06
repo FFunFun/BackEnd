@@ -1,5 +1,6 @@
-package com.ffuntree.ffunfun.data;
+package com.ffuntree.ffunfun.data.user;
 
+import com.ffuntree.ffunfun.data.common.FileProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -23,9 +25,9 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    // 유저의 로그인에 사용할 uid (user id), password
-    @Column(name = "uid")
-    private String uid;
+    // 유저의 로그인에 사용할 uid (user id) -> email, password
+    @Column(name = "email")
+    private String email;
 
     private String password;
 
@@ -45,24 +47,27 @@ public class User implements UserDetails {
     @Column(name = "academic_status")
     private AcademicStatus academicStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "social_type")
+    private SocialType socialType;
+
     @Column(name = "profile_image")
-    private String profileImage;
+    private FileProperty profileImage;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(SimpleGrantedAuthority::new)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
     public String getUsername() {
-        return uid;
+        return email;
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.ffuntree.ffunfun.service;
 
-import com.ffuntree.ffunfun.data.User;
-import com.ffuntree.ffunfun.data.dto.TokenInfo;
-import com.ffuntree.ffunfun.data.dto.UserSignInDto;
-import com.ffuntree.ffunfun.data.dto.UserSignUpDto;
+import com.ffuntree.ffunfun.data.common.FileProperty;
+import com.ffuntree.ffunfun.data.user.SocialType;
+import com.ffuntree.ffunfun.data.user.User;
+import com.ffuntree.ffunfun.data.common.TokenInfo;
+import com.ffuntree.ffunfun.data.user.UserSignInDto;
+import com.ffuntree.ffunfun.data.user.UserSignUpDto;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import com.ffuntree.ffunfun.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +25,13 @@ public class SignService {
     private final UserRepository userRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final FileUploadService fileUploadService;
 
     @Transactional
     public TokenInfo signIn(UserSignInDto userSignInDto) {
         log.info("[SignService] userSignInDto: {}", userSignInDto);
 
-        String id = userSignInDto.getUid();
+        String id = userSignInDto.getEmail();
         String password = userSignInDto.getPassword();
 
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
@@ -48,15 +51,21 @@ public class SignService {
     }
 
     @Transactional
-    public void signUp(UserSignUpDto signUpDto) {
-        checkDuplicatedUid(signUpDto.getUid());
-        User user = signUpDto.toUser();
+    public void signUp(UserSignUpDto signUpDto, SocialType socialType) {
+        checkDuplicatedEmail(signUpDto.getEmail());
+        FileProperty fileProperty = null;
+        if (signUpDto.getProfileImage() != null) {
+            fileProperty = fileUploadService.saveFile(signUpDto.getProfileImage());
+        }
+
+        User user = signUpDto.toUser(socialType, fileProperty);
         userRepository.save(user);
     }
 
-    private void checkDuplicatedUid(String uid) {
-        if (userRepository.existsByUid(uid)) {
-            throw new IllegalArgumentException("duplicated uid");
+    private void checkDuplicatedEmail(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("duplicated email");
         }
     }
+
 }

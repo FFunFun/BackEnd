@@ -1,6 +1,6 @@
 package com.ffuntree.ffunfun.security;
 
-import com.ffuntree.ffunfun.data.dto.TokenInfo;
+import com.ffuntree.ffunfun.data.common.TokenInfo;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -51,7 +51,6 @@ public class JwtTokenProvider {
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
-
         // 토큰 복호화
         Claims claims = parseClaims(accessToken);
 
@@ -86,6 +85,9 @@ public class JwtTokenProvider {
 
     private Claims parseClaims(String accessToken) {
         try {
+            if(accessToken.startsWith("Bearer ")) {
+                accessToken = accessToken.substring(7);
+            }
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();

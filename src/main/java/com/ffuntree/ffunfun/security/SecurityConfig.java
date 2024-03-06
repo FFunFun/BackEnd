@@ -10,12 +10,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Slf4j
-@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -36,7 +39,11 @@ public class SecurityConfig {
                         // 로그인, 회원가입 요청은 누구나 가능
                         .requestMatchers("api/v1/sign/sign-in").permitAll()
                         .requestMatchers("api/v1/sign/sign-up").permitAll()
-                        .anyRequest().authenticated()) // 그 외의 요청은 인증된 회원만 접근 가능
+                        .requestMatchers("api/v1/sign/social/**").permitAll()
+                        .requestMatchers("api/v1/sign/social/google").permitAll()
+                        .anyRequest().permitAll())
+
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .build();
     }
