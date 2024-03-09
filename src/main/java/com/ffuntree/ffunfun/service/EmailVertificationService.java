@@ -15,6 +15,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.io.UnsupportedEncodingException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -27,12 +30,25 @@ public class EmailVertificationService {
         // 메시지 객체를 생성하고
         MimeMessage message = javaMailSender.createMimeMessage();
 
+        // 정규식 패턴
+        String acKrPattern = ".*\\.ac\\.kr$";
+
+        String email = reqEmailAuthenticationApiV1DTO.getEmail();
+
+        // 정규식 패턴과 매치되는지 확인
+        Pattern pattern = Pattern.compile(acKrPattern);
+        Matcher matcher = pattern.matcher(email);
+
+        if (!matcher.matches()) {
+            return false;
+        }
+
         try {
             // 이메일 제목 설정
             message.setSubject("사이트 회원가입 인증번호 입니다.");
 
             // 이메일 수신자 설정
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(reqEmailAuthenticationApiV1DTO.getEmail(), "", "UTF-8"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email, "", "UTF-8"));
 
             // 이메일 내용 설정
             message.setText(setContext(authenticationCode), "UTF-8", "html");
