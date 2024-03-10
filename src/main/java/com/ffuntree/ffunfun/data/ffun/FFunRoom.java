@@ -4,6 +4,8 @@ import com.ffuntree.ffunfun.data.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -13,7 +15,8 @@ public class FFunRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "ffun_room_id")
+    private Long ffunRoomId;
 
     private String name;
 
@@ -25,5 +28,8 @@ public class FFunRoom {
 
     @OneToOne
     private User ffunManager;
+
+    @OneToMany(mappedBy = "ffunRoom")
+    private ArrayList<User> ffunMembers = new ArrayList<>();
 
 }

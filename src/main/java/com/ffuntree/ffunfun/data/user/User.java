@@ -1,6 +1,7 @@
 package com.ffuntree.ffunfun.data.user;
 
 import com.ffuntree.ffunfun.data.common.FileProperty;
+import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -57,6 +58,10 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ffun_room_id")
+    private FFunRoom ffunRoom;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
