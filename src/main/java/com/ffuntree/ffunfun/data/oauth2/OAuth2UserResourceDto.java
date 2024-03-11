@@ -1,6 +1,5 @@
 package com.ffuntree.ffunfun.data.oauth2;
 
 
-public class OAuth2UserResourceDto {
-
+public abstract class OAuth2UserResourceDto {
 }

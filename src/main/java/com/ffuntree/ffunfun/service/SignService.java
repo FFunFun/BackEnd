@@ -1,5 +1,7 @@
 package com.ffuntree.ffunfun.service;
 
+import com.ffuntree.ffunfun.data.common.FileProperty;
+import com.ffuntree.ffunfun.data.user.SocialType;
 import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.data.common.TokenInfo;
 import com.ffuntree.ffunfun.data.user.UserSignInDto;
@@ -23,6 +25,7 @@ public class SignService {
     private final UserRepository userRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final FileUploadService fileUploadService;
 
     @Transactional
     public TokenInfo signIn(UserSignInDto userSignInDto) {
@@ -48,9 +51,14 @@ public class SignService {
     }
 
     @Transactional
-    public void signUp(UserSignUpDto signUpDto) {
+    public void signUp(UserSignUpDto signUpDto, SocialType socialType) {
         checkDuplicatedEmail(signUpDto.getEmail());
-        User user = signUpDto.toUser();
+        FileProperty fileProperty = null;
+        if (signUpDto.getProfileImage() != null) {
+            fileProperty = fileUploadService.saveFile(signUpDto.getProfileImage());
+        }
+
+        User user = signUpDto.toUser(socialType, fileProperty);
         userRepository.save(user);
     }
 
