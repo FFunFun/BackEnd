@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,7 +30,15 @@ public class FFunRoom {
     @OneToOne
     private User ffunManager;
 
-    @OneToMany(mappedBy = "ffunRoom")
-    private ArrayList<User> ffunMembers = new ArrayList<>();
+    @OneToMany(mappedBy = "ffunRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<User> ffunMembers = new ArrayList<>();
 
+    public boolean isExistUser(User user) {
+        return ffunMembers.contains(user);
+    }
+
+    public void joinUser(User user) {
+        ffunMembers.add(user);
+        user.joinFFun(this);
+    }
 }

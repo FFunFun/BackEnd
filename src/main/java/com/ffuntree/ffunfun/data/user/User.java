@@ -95,8 +95,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void joinFFun(FFunRoom fFunRoom) {
-        this.ffunRoom = fFunRoom;
-        ffunRoom.getFfunMembers().add(this);
+    public void joinFFun(FFunRoom ffunRoom) {
+        this.ffunRoom = ffunRoom;
     }
+
 }
