@@ -94,4 +94,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void joinFFun(FFunRoom fFunRoom) {
+        this.ffunRoom = fFunRoom;
+        ffunRoom.getFfunMembers().add(this);
+    }
 }

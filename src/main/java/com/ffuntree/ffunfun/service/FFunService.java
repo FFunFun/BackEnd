@@ -1,5 +1,6 @@
 package com.ffuntree.ffunfun.service;
 
+import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import com.ffuntree.ffunfun.data.ffun.FFunRoomRegisterDto;
 import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
@@ -25,6 +26,19 @@ public class FFunService {
     }
 
     private void checkDuplicateFFun(User ffunManager) {
+        if (ffunManager.getFfunRoom() != null) {
+            throw new IllegalStateException("이미 FFun에 가입된 사용자입니다.");
+        }
+    }
 
+    public void joinFFun(String userEmail, Long ffunRoomId) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(UserNotFoundException::new);
+
+        FFunRoom ffunRoom = ffunRepository.findById(ffunRoomId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 FFun입니다."));
+
+        user.joinFFun(ffunRoom);
+        userRepository.save(user);
     }
 }

@@ -23,4 +23,12 @@ public class FFunController {
         ffunService.makeFFunRoom(ffunRoomRegisterDto, ffunManagerEmail);
     }
 
+    @PostMapping("/join/{ffunRoomId}")
+    public void joinFFun(
+            @RequestHeader("Authorization") String accessToken,
+            @PathVariable Long ffunRoomId) {
+        String userEmail = userService.getUsernameFromToken(accessToken);
+        ffunService.joinFFun(userEmail, ffunRoomId);
+    }
+
 }
