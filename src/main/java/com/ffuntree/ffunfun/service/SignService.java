@@ -51,7 +51,7 @@ public class SignService {
     }
 
     @Transactional
-    public void signUp(UserSignUpDto signUpDto, SocialType socialType) {
+    public User signUp(UserSignUpDto signUpDto, SocialType socialType) {
         checkDuplicatedEmail(signUpDto.getEmail());
         FileProperty fileProperty = null;
         if (signUpDto.getProfileImage() != null) {
@@ -60,6 +60,8 @@ public class SignService {
 
         User user = signUpDto.toUser(socialType, fileProperty);
         userRepository.save(user);
+
+        return user;
     }
 
     private void checkDuplicatedEmail(String email) {
