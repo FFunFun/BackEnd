@@ -45,12 +45,13 @@ jobs:
           echo "${{ secrets.YML }}" > ./application-secret.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
         shell: bash
 
-      # Gradle 빌드
       - name: 스프링부트 애플리케이션 빌드
-        run: ./gradlew build
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
 
       - name: 도커 이미지 빌드
-        run: docker build -t kangsm423/fff_server_dev .
+        run: docker build -t kangsm423/_server_dev .
 
       - name: Docker Hub 로그인
         uses: docker/login-action@v2
@@ -59,4 +60,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker Hub 퍼블리시
-        run: docker push kangsm423/fff_server_dev
+        run: docker push kangsm423/FFunFun_server_dev
