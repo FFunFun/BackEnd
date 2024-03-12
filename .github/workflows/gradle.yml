@@ -1,36 +1,65 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
-name: Java CI with Gradle
+name: Java CI with Gradle & CD with docker
 
 on:
   push:
-    branches: [ "master", "develop" ]
+    branches: ["master", "develop"]
   pull_request:
-    branches: [ "master", "develop" ]
+    branches: ["master", "develop"]
 
 permissions:
   contents: read
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Run chmod to make gradlew executable
-      run: chmod +x ./gradlew
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      # 사용할 JDK 설정
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: gradle caching - 빌드 시간 향상
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: gradlew 파일 실행권한 부여
+        run: chmod +x ./gradlew
+
+      - name: application-secret.yml 파일 생성
+        if: |
+          contains(github.ref, 'master') ||
+          contains(github.ref, 'develop')
+        run: |
+          mkdir ./src/main/resources # resources 폴더 생성
+          cd ./src/main/resources # resources 폴더로 이동
+          touch ./application-secret.yml # application.yml 생성
+          echo "${{ secrets.YML }}" > ./application-secret.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
+        shell: bash
+
+      # Gradle 빌드
+      - name: Gradle 빌드
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
+
+      - name: 도커 이미지 빌드
+        run: docker build -t kangsm423/FFunFun_server_dev .
+
+      - name: Docker Hub 로그인
+        uses: docker/login-action@v2
+        with:
+          username: kangsm423
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker Hub 퍼블리시
+        run: docker push kangsm423/FFunFun_server_dev
