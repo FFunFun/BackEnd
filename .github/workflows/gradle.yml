@@ -52,7 +52,7 @@ jobs:
           arguments: build
 
       - name: 도커 이미지 빌드
-        run: docker build -t kangsm423/FFunFun_server_dev .
+        run: docker build -t kangsm423/fff_server_dev .
 
       - name: Docker Hub 로그인
         uses: docker/login-action@v2
@@ -61,4 +61,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker Hub 퍼블리시
-        run: docker push kangsm423/FFunFun_server_dev
+        run: docker push kangsm423/fff_server_dev
