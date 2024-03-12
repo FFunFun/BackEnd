@@ -50,7 +50,7 @@ jobs:
         with:
           arguments: build
 #        run: ./gradlew clean build --exclude-task test
-      
+
       - name: 확인 - build/libs 디렉토리 출력
         run: ls -l build/libs
 

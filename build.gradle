@@ -26,7 +26,7 @@ bootJar {
 }
 
 jar {
-    jar.enabled = true
+    jar.enabled = false
 }
 
 dependencies {
