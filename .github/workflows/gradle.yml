@@ -50,6 +50,9 @@ jobs:
         with:
           arguments: build
 #        run: ./gradlew clean build --exclude-task test
+      
+      - name: 확인 - build/libs 디렉토리 출력
+        run: ls -l build/libs
 
       - name: 도커 이미지 빌드
         run: docker build -t kangsm423/fff_server_dev .
