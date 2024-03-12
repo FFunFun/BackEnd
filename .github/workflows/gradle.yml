@@ -40,7 +40,6 @@ jobs:
           contains(github.ref, 'master') ||
           contains(github.ref, 'develop')
         run: |
-          mkdir ./src/main/resources # resources 폴더 생성
           cd ./src/main/resources # resources 폴더로 이동
           touch ./application-secret.yml # application.yml 생성
           echo "${{ secrets.YML }}" > ./application-secret.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
