@@ -46,10 +46,10 @@ jobs:
         shell: bash
 
       - name: 스프링부트 애플리케이션 빌드
-          # uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        # with:
-        # arguments: build
-        run: ./gradlew clean build --exclude-task test
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
+#        run: ./gradlew clean build --exclude-task test
 
       - name: 도커 이미지 빌드
         run: docker build -t kangsm423/fff_server_dev .
