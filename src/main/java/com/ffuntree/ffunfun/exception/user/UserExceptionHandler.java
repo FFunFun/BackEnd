@@ -13,4 +13,9 @@ public class UserExceptionHandler {
         return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
     }
 
+    @ExceptionHandler(UserEmailDuplicated.class)
+    public ResponseEntity<ErrorResponseDto> handleUserEmailDuplicated(UserEmailDuplicated exception) {
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
+    }
+
 }

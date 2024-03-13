@@ -6,6 +6,7 @@ import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.data.common.TokenInfo;
 import com.ffuntree.ffunfun.data.user.UserSignInDto;
 import com.ffuntree.ffunfun.data.user.UserSignUpDto;
+import com.ffuntree.ffunfun.exception.user.UserEmailDuplicated;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import com.ffuntree.ffunfun.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class SignService {
 
     private void checkDuplicatedEmail(String email) {
         if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("duplicated email");
+            throw new UserEmailDuplicated();
         }
     }
 
