@@ -26,8 +26,8 @@ public class FFunService {
         checkDuplicateFFun(user);
 
         FFunRoom ffunRoom = ffunRepository.save(ffunRoomRegisterDto.toEntity());
-        user.joinFFun(ffunRoom);
-        user.getFfunRoom().getFfunMembers().add(user);
+        ffunRoom.joinUser(user);
+        user.registerFFunManager();
 
         return ffunRoom;
     }
