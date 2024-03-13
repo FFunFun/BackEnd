@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @Entity
 public class FFunRoom {
 
@@ -25,13 +24,18 @@ public class FFunRoom {
 
     private String password;
 
-    private boolean isDeleted;
-
-    @OneToOne
-    private User ffunManager;
-
     @OneToMany(mappedBy = "ffunRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<User> ffunMembers = new ArrayList<>();
+
+    private boolean isDeleted;
+
+    @Builder
+    public FFunRoom(String name, String description, String password, boolean isDeleted) {
+        this.name = name;
+        this.description = description;
+        this.password = password;
+        this.isDeleted = isDeleted;
+    }
 
     public boolean isExistUser(User user) {
         return ffunMembers.contains(user);
@@ -41,4 +45,10 @@ public class FFunRoom {
         ffunMembers.add(user);
         user.joinFFun(this);
     }
+
+    public void transferManager(User oldManager, User newManager) {
+        oldManager.unregisterFFunManager();
+        newManager.registerFFunManager();
+    }
+
 }

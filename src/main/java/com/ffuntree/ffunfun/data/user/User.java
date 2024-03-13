@@ -61,13 +61,30 @@ public class User implements UserDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ffun_room_id")
-    private FFunRoom ffunRoom;
+    public FFunRoom ffunRoom;
+
+    private boolean isFFunManager;
+
+    public void registerFFunManager() {
+        this.isFFunManager = true;
+    }
+
+    public void unregisterFFunManager() {
+        this.isFFunManager = false;
+    }
+
+    public void joinFFun(FFunRoom ffunRoom) {
+        this.ffunRoom = ffunRoom;
+    }
+
+    public void leaveFFun() {
+        ffunRoom.getFfunMembers().remove(this);
+        this.ffunRoom = null;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Override
@@ -94,9 +111,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public void joinFFun(FFunRoom ffunRoom) {
-        this.ffunRoom = ffunRoom;
-    }
-
 }

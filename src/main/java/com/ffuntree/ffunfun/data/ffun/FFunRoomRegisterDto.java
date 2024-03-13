@@ -16,12 +16,11 @@ public class FFunRoomRegisterDto {
 
     private String password;
 
-    public FFunRoom toEntity(User user) {
+    public FFunRoom toEntity() {
         return FFunRoom.builder()
                 .name(name)
                 .description(description)
                 .password(password)
-                .ffunManager(user)
                 .build();
     }
 
