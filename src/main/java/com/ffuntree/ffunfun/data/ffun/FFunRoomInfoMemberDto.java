@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FFunRoomInfoDto {
+public class FFunRoomInfoMemberDto {
 
     private Long ffunRoomId;
 
@@ -18,24 +18,24 @@ public class FFunRoomInfoDto {
 
     private String description;
 
-    private String password;
-
     private List<UserSimpleInfoDto> userinfo = new ArrayList<>();
 
     @Builder
-    public FFunRoomInfoDto(Long ffunRoomId, String name, String description, String password) {
+    public FFunRoomInfoMemberDto(Long ffunRoomId, String name, String description) {
         this.ffunRoomId = ffunRoomId;
         this.name = name;
         this.description = description;
-        this.password = password;
     }
 
-    public static FFunRoomInfoDto of(FFunRoom ffunRoom) {
-        FFunRoomInfoDto build = FFunRoomInfoDto.builder()
+    public static FFunRoomInfoMemberDto of(FFunRoom ffunRoom) {
+        if(ffunRoom == null) {
+            return null;
+        }
+
+        FFunRoomInfoMemberDto build = FFunRoomInfoMemberDto.builder()
                 .ffunRoomId(ffunRoom.getFfunRoomId())
                 .name(ffunRoom.getName())
                 .description(ffunRoom.getDescription())
-                .password(ffunRoom.getPassword())
                 .build();
 
         build.userinfo = ffunRoom.getFfunMembers().stream()

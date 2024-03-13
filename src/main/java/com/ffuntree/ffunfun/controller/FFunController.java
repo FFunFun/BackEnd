@@ -1,9 +1,8 @@
 package com.ffuntree.ffunfun.controller;
 
 import com.ffuntree.ffunfun.data.ffun.ExistUserDto;
-import com.ffuntree.ffunfun.data.ffun.FFunRoomInfoDto;
+import com.ffuntree.ffunfun.data.ffun.FFunRoomInfoMemberDto;
 import com.ffuntree.ffunfun.data.ffun.FFunRoomRegisterDto;
-import com.ffuntree.ffunfun.data.user.UserInfoDto;
 import com.ffuntree.ffunfun.service.FFunService;
 import com.ffuntree.ffunfun.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -46,9 +45,9 @@ public class FFunController {
     }
 
     @GetMapping("/{ffunRoomId}")
-    public ResponseEntity<FFunRoomInfoDto> getFFunRoomInfo(
+    public ResponseEntity<FFunRoomInfoMemberDto> getFFunRoomInfo(
             @PathVariable Long ffunRoomId) {
-        FFunRoomInfoDto ffunRoomInfo = ffunService.getFFunRoomInfo(ffunRoomId);
+        FFunRoomInfoMemberDto ffunRoomInfo = ffunService.getFFunRoomInfo(ffunRoomId);
 
         return ResponseEntity.ok(ffunRoomInfo);
     }

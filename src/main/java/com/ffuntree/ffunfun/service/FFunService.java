@@ -2,7 +2,7 @@ package com.ffuntree.ffunfun.service;
 
 import com.ffuntree.ffunfun.data.ffun.ExistUserDto;
 import com.ffuntree.ffunfun.data.ffun.FFunRoom;
-import com.ffuntree.ffunfun.data.ffun.FFunRoomInfoDto;
+import com.ffuntree.ffunfun.data.ffun.FFunRoomInfoMemberDto;
 import com.ffuntree.ffunfun.data.ffun.FFunRoomRegisterDto;
 import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.exception.ffun.FFunAlreadyJoinedException;
@@ -59,9 +59,9 @@ public class FFunService {
         return new ExistUserDto(isExistUser);
     }
 
-    public FFunRoomInfoDto getFFunRoomInfo(Long ffunRoomId) {
+    public FFunRoomInfoMemberDto getFFunRoomInfo(Long ffunRoomId) {
         FFunRoom ffunRoom = ffunRepository.findById(ffunRoomId).orElseThrow(FFunNotFoundException::new);
-        return FFunRoomInfoDto.of(ffunRoom);
+        return FFunRoomInfoMemberDto.of(ffunRoom);
     }
 
     @Transactional
