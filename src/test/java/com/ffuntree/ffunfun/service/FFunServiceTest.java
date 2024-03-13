@@ -4,6 +4,7 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import com.ffuntree.ffunfun.data.user.SocialType;
 import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.data.user.UserSignUpDto;
+import com.ffuntree.ffunfun.exception.ffun.FFunPasswordWrong;
 import com.ffuntree.ffunfun.repository.FFunRepository;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @SpringBootTest
 class FFunServiceTest {
@@ -63,7 +65,7 @@ class FFunServiceTest {
 
     @Test
     @Transactional
-    void 뻔_가입() {
+    void 뻔_가입_성공() {
         // given
         UserSignUpDto userSignUpDto1 = SignStep.회원가입_정보_생성1();
         UserSignUpDto userSignUpDto2 = SignStep.회원가입_정보_생성2();
@@ -74,7 +76,7 @@ class FFunServiceTest {
         FFunRoom madeFFunRoom = ffunService.makeFFunRoom(FFunStep.뻔_정보_생성(), 방장.getEmail());
 
         // when
-        ffunService.joinFFun(가입자.getEmail(), madeFFunRoom.getFfunRoomId());
+        ffunService.joinFFun(가입자.getEmail(), madeFFunRoom.getFfunRoomId(), madeFFunRoom.getPassword());
         ffunRepository.flush();
         userRepository.flush();
 
@@ -84,6 +86,24 @@ class FFunServiceTest {
 
         FFunRoom 뻔_방_조회 = ffunRepository.findById(madeFFunRoom.getFfunRoomId()).get();
         assertThat(뻔_방_조회.getFfunMembers().size()).isEqualTo(2);
+    }
+
+    @Test
+    void 뻔_가입_실패_비밀번호_틀림() {
+        // given
+        UserSignUpDto userSignUpDto1 = SignStep.회원가입_정보_생성1();
+        UserSignUpDto userSignUpDto2 = SignStep.회원가입_정보_생성2();
+
+        User 방장 = signService.signUp(userSignUpDto1, SocialType.NONE);
+        User 가입자 = signService.signUp(userSignUpDto2, SocialType.NONE);
+
+        FFunRoom madeFFunRoom = ffunService.makeFFunRoom(FFunStep.뻔_정보_생성(), 방장.getEmail());
+
+        // when & then
+        assertThatThrownBy(() -> ffunService.joinFFun(가입자.getEmail(),
+                madeFFunRoom.getFfunRoomId(),
+                "틀린비밀번호"))
+                .isInstanceOf(FFunPasswordWrong.class);
     }
 
 }

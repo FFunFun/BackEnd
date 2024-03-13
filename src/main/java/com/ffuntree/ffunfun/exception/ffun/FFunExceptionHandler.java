@@ -19,4 +19,9 @@ public class FFunExceptionHandler {
         return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
     }
 
+    @ExceptionHandler(FFunPasswordWrong.class)
+    public ResponseEntity<ErrorResponseDto> handleFFunPasswordWrongException(FFunPasswordWrong exception) {
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
+    }
+
 }

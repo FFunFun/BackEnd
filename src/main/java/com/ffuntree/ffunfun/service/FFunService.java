@@ -7,6 +7,7 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoomRegisterDto;
 import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.exception.ffun.FFunAlreadyJoinedException;
 import com.ffuntree.ffunfun.exception.ffun.FFunNotFoundException;
+import com.ffuntree.ffunfun.exception.ffun.FFunPasswordWrong;
 import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
 import com.ffuntree.ffunfun.repository.FFunRepository;
 import com.ffuntree.ffunfun.repository.UserRepository;
@@ -35,15 +36,18 @@ public class FFunService {
     }
 
     private void checkDuplicateFFun(User user) {
-            if (user.getFfunRoom() != null) {
+        if (user.getFfunRoom() != null) {
             throw new FFunAlreadyJoinedException();
         }
     }
 
     @Transactional
-    public void joinFFun(String userEmail, Long ffunRoomId) {
+    public void joinFFun(String userEmail, Long ffunRoomId, String password) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
         FFunRoom ffunRoom = ffunRepository.findById(ffunRoomId).orElseThrow(FFunNotFoundException::new);
+        if (!ffunRoom.getPassword().equals(password)) {
+            throw new FFunPasswordWrong();
+        }
         ffunRoom.joinUser(user);
     }
 

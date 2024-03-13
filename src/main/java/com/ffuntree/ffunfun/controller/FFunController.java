@@ -29,9 +29,10 @@ public class FFunController {
     @PostMapping("/join/{ffunRoomId}")
     public void joinFFun(
             @RequestHeader("Authorization") String accessToken,
+            @RequestParam String password,
             @PathVariable Long ffunRoomId) {
         String userEmail = userService.getUsernameFromToken(accessToken);
-        ffunService.joinFFun(userEmail, ffunRoomId);
+        ffunService.joinFFun(userEmail, ffunRoomId, password);
     }
 
     @GetMapping("/exist/{ffunRoomId}")
