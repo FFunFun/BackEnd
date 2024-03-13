@@ -63,4 +63,10 @@ public class FFunService {
         FFunRoom ffunRoom = ffunRepository.findById(ffunRoomId).orElseThrow(FFunNotFoundException::new);
         return FFunRoomInfoDto.of(ffunRoom);
     }
+
+    @Transactional
+    public void leaveFFun(String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+        user.leaveFFun();
+    }
 }

@@ -56,7 +56,7 @@ public class FFunController {
     @DeleteMapping("/leave")
     public void leaveFFun(@RequestHeader("Authorization") String accessToken) {
         String userEmail = userService.getUsernameFromToken(accessToken);
-        userService.leaveFFun(userEmail);
+        ffunService.leaveFFun(userEmail);
     }
 
 }

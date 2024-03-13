@@ -36,8 +36,4 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public void leaveFFun(String userEmail) {
-        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        user.leaveFFun();
-    }
 }
