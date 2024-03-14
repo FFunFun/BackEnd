@@ -9,26 +9,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-/*
-
-mail:
-  host: smtp.gmail.com
-  port: 587
-  username: ffunfun17
-  password: fegy mbin qlge jdhv
-  properties:
-    mail:
-      smtp:
-        auth: true
-        starttls:
-          enable: true
-          required: true
-        connectiontimeout: 5000
-        timeout: 5000
-        writetimeout: 5000
-  auth-code-expiration-millis: 1800000
-
- */
 @RequiredArgsConstructor
 @Configuration
 public class MailConfig {
