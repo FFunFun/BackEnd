@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "idx", callSuper = false)
+@EqualsAndHashCode(of = "mail_id", callSuper = false)
 @Entity
 @Table(name = "`MEMBER_AUTHENTICATION_CODE`")
 @DynamicInsert
@@ -20,8 +20,8 @@ public class MemberAuthenticationCodeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idx", updatable = false)
-    private Long idx;
+    @Column(name = "mail_id", updatable = false)
+    private Long mail_id;
 
     // 이메일
     @Column(name = "email", nullable = false)
