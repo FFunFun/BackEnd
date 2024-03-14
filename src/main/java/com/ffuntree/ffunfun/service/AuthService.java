@@ -55,15 +55,13 @@ public class AuthService {
             memberAuthenticationCodeRepository.save(beforeMemberAuthenticationCodeEntity);
         }
 
-        // 인증 코드 데이터를 저장하기 위해 새 엔티티를 작성하여
-        MemberAuthenticationCodeEntity.MemberAuthenticationCodeEntityBuilder builder = MemberAuthenticationCodeEntity
-                .builder();
-        builder.email(reqSendEmailAuthenticationDTO.getEmail());
-        builder.code(authenticationCode);
-        builder.isVerified(false);
-        builder.endDate(LocalDateTime.now().plus(5, ChronoUnit.MINUTES));
-        builder.createDate(LocalDateTime.now());
-        MemberAuthenticationCodeEntity memberAuthenticationCodeEntity = builder
+         // 인증 코드 데이터를 저장하기 위해 새 엔티티를 작성하여
+        MemberAuthenticationCodeEntity memberAuthenticationCodeEntity = MemberAuthenticationCodeEntity.builder()
+                .email(reqSendEmailAuthenticationDTO.getEmail())
+                .code(authenticationCode)
+                .isVerified(false)
+                .endDate(LocalDateTime.now().plusMinutes(5))
+                .createDate(LocalDateTime.now())
                 .build();
 
         // 저장

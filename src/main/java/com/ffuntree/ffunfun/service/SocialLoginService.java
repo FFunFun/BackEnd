@@ -1,14 +1,19 @@
 package com.ffuntree.ffunfun.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.ffuntree.ffunfun.data.common.FileProperty;
 import com.ffuntree.ffunfun.data.common.TokenInfo;
 import com.ffuntree.ffunfun.data.oauth2.GoogleUserResourceDto;
 import com.ffuntree.ffunfun.data.oauth2.OAuth2JwtTokenResponse;
 import com.ffuntree.ffunfun.data.oauth2.OAuth2LoginResponse;
 import com.ffuntree.ffunfun.data.oauth2.OAuth2RegisterResponse;
+import com.ffuntree.ffunfun.data.user.SocialSignUpDto;
+import com.ffuntree.ffunfun.data.user.SocialType;
 import com.ffuntree.ffunfun.data.user.UserSignInDto;
 import com.ffuntree.ffunfun.repository.UserRepository;
+import com.ffuntree.ffunfun.security.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -16,6 +21,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SocialLoginService {
@@ -23,6 +29,7 @@ public class SocialLoginService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final UserRepository userRepository;
     private final SignService signService;
+    private final PasswordGenerator passwordGenerator;
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String clientId;
@@ -82,4 +89,8 @@ public class SocialLoginService {
         return restTemplate.exchange(resourceUri, HttpMethod.GET, entity, GoogleUserResourceDto.class).getBody();
     }
 
+    public void socialSignUp(SocialSignUpDto socialSignUpDto, SocialType socialType) {
+        String randomPassword = passwordGenerator.generateRandomPassword();
+        signService.signUp(socialSignUpDto.toUserSignUpDto(randomPassword), socialType);
+    }
 }

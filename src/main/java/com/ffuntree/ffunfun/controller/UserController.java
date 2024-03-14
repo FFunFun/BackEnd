@@ -18,4 +18,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(accessToken));
     }
 
+    @DeleteMapping("/withdrawal")
+    public ResponseEntity<String> withdrawal(@RequestHeader("Authorization") String accessToken) {
+        userService.withdrawal(accessToken);
+        return ResponseEntity.ok("withdrawal success");
+    }
+
 }

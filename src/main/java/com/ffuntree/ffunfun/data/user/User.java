@@ -1,5 +1,6 @@
 package com.ffuntree.ffunfun.data.user;
 
+import com.ffuntree.ffunfun.data.common.FileProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,8 +47,12 @@ public class User implements UserDetails {
     @Column(name = "academic_status")
     private AcademicStatus academicStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "social_type")
+    private SocialType socialType;
+
     @Column(name = "profile_image")
-    private String profileImage;
+    private FileProperty profileImage;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

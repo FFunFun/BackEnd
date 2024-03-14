@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   # H2 Setting Info (H2 Console? ???? ?? ???? ??)
   h2:
     console:
@@ -13,7 +17,7 @@ spring:
       mode: always
   datasource:
     driver-class-name: org.h2.Driver
-    #    url: jdbc:h2:tcp://localhost/~/test
+#    url: jdbc:h2:tcp://localhost/~/test
     url: jdbc:h2:mem:testdb # in-memory mode
     username: sa
     password:
@@ -29,7 +33,8 @@ spring:
 
 
   config:
-    import: classpath:application-secret.yml
+#    import: classpath:application-secret.yml # 개발 및 배포 환경에서 이 파일을 사용
+    import: classpath:application-secret-github-action.yml # Github Action 환경에서 이 파일을 사용
 
 server:
   port: 8080
