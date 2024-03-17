@@ -129,4 +129,28 @@ class FFunServiceTest {
                 .isInstanceOf(FFunAlreadyJoinedException.class);
     }
 
+    @Test
+    @Transactional
+    void 뻔_탈퇴() {
+        // given
+        UserSignUpDto userSignUpDto1 = SignStep.회원가입_정보_생성1();
+        UserSignUpDto userSignUpDto2 = SignStep.회원가입_정보_생성2();
+
+        User 방장 = signService.signUp(userSignUpDto1, SocialType.NONE);
+        User 가입자 = signService.signUp(userSignUpDto2, SocialType.NONE);
+
+        FFunRoom madeFFunRoom = ffunService.makeFFunRoom(FFunStep.뻔_정보_생성(), 방장.getEmail());
+        ffunService.joinFFun(가입자.getEmail(), madeFFunRoom.getFfunRoomId(), madeFFunRoom.getPassword());
+
+        // when
+        ffunService.leaveFFun(가입자.getEmail());
+
+        // then
+        User 가입자_조회 = userRepository.findByEmail(가입자.getEmail()).get();
+        assertThat(가입자_조회.getFfunRoom()).isNull();
+
+        FFunRoom 뻔_방_조회 = ffunRepository.findById(madeFFunRoom.getFfunRoomId()).get();
+        assertThat(뻔_방_조회.getFfunMembers().size()).isEqualTo(1);
+    }
+
 }
