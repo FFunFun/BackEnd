@@ -4,6 +4,7 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import com.ffuntree.ffunfun.data.user.SocialType;
 import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.data.user.UserSignUpDto;
+import com.ffuntree.ffunfun.exception.ffun.FFunAlreadyJoinedException;
 import com.ffuntree.ffunfun.exception.ffun.FFunPasswordWrong;
 import com.ffuntree.ffunfun.repository.FFunRepository;
 import com.ffuntree.ffunfun.repository.UserRepository;
@@ -104,6 +105,28 @@ class FFunServiceTest {
                 madeFFunRoom.getFfunRoomId(),
                 "틀린비밀번호"))
                 .isInstanceOf(FFunPasswordWrong.class);
+    }
+
+    @Test
+    void 뻔_이미_가입됨() {
+        // given
+        UserSignUpDto userSignUpDto1 = SignStep.회원가입_정보_생성1();
+        UserSignUpDto userSignUpDto2 = SignStep.회원가입_정보_생성2();
+        UserSignUpDto userSignUpDto3 = SignStep.회원가입_정보_생성3();
+
+        User 방장1 = signService.signUp(userSignUpDto1, SocialType.NONE);
+        User 방장2 = signService.signUp(userSignUpDto2, SocialType.NONE);
+        User 가입자 = signService.signUp(userSignUpDto3, SocialType.NONE);
+
+        // when
+        FFunRoom madeFFunRoom1 = ffunService.makeFFunRoom(FFunStep.뻔_정보_생성(), 방장1.getEmail());
+        FFunRoom madeFFunRoom2 = ffunService.makeFFunRoom(FFunStep.뻔_정보_생성(), 방장2.getEmail());
+
+        // then
+        ffunService.joinFFun(가입자.getEmail(), madeFFunRoom1.getFfunRoomId(), madeFFunRoom1.getPassword());
+        // 뻔이 이미 가입되어있는 상태에서 가입 시도
+        assertThatThrownBy(() -> ffunService.joinFFun(가입자.getEmail(), madeFFunRoom2.getFfunRoomId(), madeFFunRoom2.getPassword()))
+                .isInstanceOf(FFunAlreadyJoinedException.class);
     }
 
 }
