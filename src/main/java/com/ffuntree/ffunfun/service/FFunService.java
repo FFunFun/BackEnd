@@ -44,10 +44,16 @@ public class FFunService {
     @Transactional
     public void joinFFun(String userEmail, Long ffunRoomId, String password) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+
+        if(user.alreadyJoinedFFun()) {
+            throw new FFunAlreadyJoinedException();
+        }
+
         FFunRoom ffunRoom = ffunRepository.findById(ffunRoomId).orElseThrow(FFunNotFoundException::new);
         if (!ffunRoom.getPassword().equals(password)) {
             throw new FFunPasswordWrong();
         }
+
         ffunRoom.joinUser(user);
     }
 
