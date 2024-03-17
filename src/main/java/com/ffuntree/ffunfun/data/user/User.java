@@ -61,7 +61,7 @@ public class User implements UserDetails {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ffun_room_id")
-    public FFunRoom ffunRoom;
+    private FFunRoom ffunRoom;
 
     private boolean isFFunManager;
 
@@ -80,6 +80,10 @@ public class User implements UserDetails {
     public void leaveFFun() {
         ffunRoom.getFfunMembers().remove(this);
         this.ffunRoom = null;
+    }
+
+    public boolean alreadyJoinedFFun() {
+        return ffunRoom != null;
     }
 
     @Override
