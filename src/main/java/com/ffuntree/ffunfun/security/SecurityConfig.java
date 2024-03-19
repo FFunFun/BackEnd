@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .requestMatchers("api/v1/user/sign-up").permitAll()
                         .requestMatchers("api/v1/user/social/**").permitAll()
                         .requestMatchers("api/v1/user/social/google").permitAll()
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
