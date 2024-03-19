@@ -6,6 +6,7 @@ import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.data.common.TokenInfo;
 import com.ffuntree.ffunfun.data.user.UserSignInDto;
 import com.ffuntree.ffunfun.data.user.UserSignUpDto;
+import com.ffuntree.ffunfun.exception.user.UserEmailDuplicated;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import com.ffuntree.ffunfun.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,7 @@ public class SignService {
     }
 
     @Transactional
-    public void signUp(UserSignUpDto signUpDto, SocialType socialType) {
+    public User signUp(UserSignUpDto signUpDto, SocialType socialType) {
         checkDuplicatedEmail(signUpDto.getEmail());
         FileProperty fileProperty = null;
         if (signUpDto.getProfileImage() != null) {
@@ -60,11 +61,13 @@ public class SignService {
 
         User user = signUpDto.toUser(socialType, fileProperty);
         userRepository.save(user);
+
+        return user;
     }
 
     private void checkDuplicatedEmail(String email) {
         if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("duplicated email");
+            throw new UserEmailDuplicated();
         }
     }
 

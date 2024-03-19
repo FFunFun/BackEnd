@@ -1,6 +1,7 @@
 package com.ffuntree.ffunfun.data.user;
 
 import com.ffuntree.ffunfun.data.common.FileProperty;
+import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -58,11 +59,36 @@ public class User implements UserDetails {
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ffun_room_id")
+    private FFunRoom ffunRoom;
+
+    private boolean isFFunManager;
+
+    public void registerFFunManager() {
+        this.isFFunManager = true;
+    }
+
+    public void unregisterFFunManager() {
+        this.isFFunManager = false;
+    }
+
+    public void joinFFun(FFunRoom ffunRoom) {
+        this.ffunRoom = ffunRoom;
+    }
+
+    public void leaveFFun() {
+        ffunRoom.getFfunMembers().remove(this);
+        this.ffunRoom = null;
+    }
+
+    public boolean alreadyJoinedFFun() {
+        return ffunRoom != null;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Override

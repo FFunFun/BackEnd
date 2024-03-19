@@ -1,4 +1,4 @@
-package com.ffuntree.ffunfun.exception;
+package com.ffuntree.ffunfun.exception.auth;
 
 import com.ffuntree.ffunfun.data.common.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;
