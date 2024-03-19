@@ -2,16 +2,14 @@ package com.ffuntree.ffunfun.data.story;
 
 import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Entity
 public class Story {
 

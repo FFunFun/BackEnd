@@ -1,5 +1,6 @@
 package com.ffuntree.ffunfun.data.ffun;
 
+import com.ffuntree.ffunfun.data.story.Story;
 import com.ffuntree.ffunfun.data.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,9 @@ public class FFunRoom {
 
     @OneToMany(mappedBy = "ffunRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<User> ffunMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ffunRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Story> stories = new ArrayList<>();
 
     private boolean isDeleted;
 
