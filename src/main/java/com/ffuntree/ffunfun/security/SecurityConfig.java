@@ -37,10 +37,10 @@ public class SecurityConfig {
 
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         // 로그인, 회원가입 요청은 누구나 가능
-                        .requestMatchers("api/v1/sign/sign-in").permitAll()
-                        .requestMatchers("api/v1/sign/sign-up").permitAll()
-                        .requestMatchers("api/v1/sign/social/**").permitAll()
-                        .requestMatchers("api/v1/sign/social/google").permitAll()
+                        .requestMatchers("api/v1/user/sign-in").permitAll()
+                        .requestMatchers("api/v1/user/sign-up").permitAll()
+                        .requestMatchers("api/v1/user/social/**").permitAll()
+                        .requestMatchers("api/v1/user/social/google").permitAll()
                         .anyRequest().permitAll())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
