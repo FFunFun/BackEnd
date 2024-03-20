@@ -4,6 +4,7 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoomSimpleInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 @Data
 @AllArgsConstructor
@@ -17,13 +18,18 @@ public class UserInfoDto {
     private FFunRoomSimpleInfoDto ffunRoomInfo;
 
     public static UserInfoDto of(User user, String encodedProfileImageForBase64) {
-        return UserInfoDto.builder()
+        UserInfoDto build = UserInfoDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .profileImage(encodedProfileImageForBase64)
                 .studentEmail(user.getStudentEmail())
-                .ffunRoomInfo(FFunRoomSimpleInfoDto.of(user.getFfunRoom()))
                 .build();
+
+        if (user.getFfunRoom() == null) {
+            build.setFfunRoomInfo(null);
+        }
+
+        return build;
     }
 
 }

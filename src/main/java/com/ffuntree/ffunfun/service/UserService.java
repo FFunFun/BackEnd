@@ -14,12 +14,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final CustomUserDetailsService customUserDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
     private final FileUploadService fileUploadService;
 
-    public UserInfoDto getUser(String accessToken) {
-        User user = userRepository.findByEmail(getUsernameFromToken(accessToken)).orElseThrow(UserNotFoundException::new);
+    public UserInfoDto getUserInfo(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         String encodedProfileImage = null;
         if (user.getProfileImage() != null) {
             encodedProfileImage = fileUploadService.loadFileAsBase64(user.getProfileImage().getFilename());
@@ -31,8 +30,8 @@ public class UserService {
         return jwtTokenProvider.getAuthentication(token).getName();
     }
 
-    public void withdrawal(String accessToken) {
-        User user = userRepository.findByEmail(getUsernameFromToken(accessToken)).orElseThrow(UserNotFoundException::new);
+    public void withdrawal(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         userRepository.delete(user);
     }
 
