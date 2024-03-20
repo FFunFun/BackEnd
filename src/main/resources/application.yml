@@ -9,6 +9,12 @@ spring:
       enabled: true  # H2 Console? ???? ?? (H2 Console? H2 Database? UI? ????? ??)
       path: /h2-console  # H2 Console? Path
   # Database Setting Info (Database? H2? ???? ?? H2?? ?? ??)
+  sql:
+    init:
+      encoding: UTF-8
+      #   schema-locations: classpath:h2/schema.sql
+      # dataLocations: classpath:h2/data.sql
+      mode: always
   datasource:
     driver-class-name: org.h2.Driver
 #    url: jdbc:h2:tcp://localhost/~/test
@@ -24,6 +30,7 @@ spring:
         #  show_sql: true
         format_sql: true
         use_sql_comments: true # sql ? ?? jpql ??????  ???? ??
+
 
   config:
 #    import: classpath:application-secret.yml # 개발 및 배포 환경에서 이 파일을 사용
