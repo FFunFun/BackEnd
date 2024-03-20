@@ -4,6 +4,7 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import com.ffuntree.ffunfun.data.story.Story;
 import com.ffuntree.ffunfun.data.story.StoryRegisterDto;
 import com.ffuntree.ffunfun.exception.ffun.FFunNotFoundException;
+import com.ffuntree.ffunfun.exception.story.StoryNotFoundException;
 import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
 import com.ffuntree.ffunfun.repository.StoryRepository;
 import com.ffuntree.ffunfun.repository.UserRepository;
@@ -36,7 +37,6 @@ public class StoryService {
     }
 
     public Story getStory(Long storyId) {
-        // TODO : 예외 처리 구체화
-        return storyRepository.findById(storyId).orElseThrow(() -> new RuntimeException("Story not found."));
+        return storyRepository.findById(storyId).orElseThrow(StoryNotFoundException::new);
     }
 }
