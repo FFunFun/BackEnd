@@ -1,10 +1,8 @@
 package com.ffuntree.ffunfun.security;
 
-import com.ffuntree.ffunfun.data.common.AuthenticatedUser;
-import com.ffuntree.ffunfun.data.common.TokenInfo;
-import com.ffuntree.ffunfun.data.user.User;
-import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
-import com.ffuntree.ffunfun.repository.UserRepository;
+import com.ffuntree.ffunfun.sign.domain.AuthenticatedUser;
+import com.ffuntree.ffunfun.sign.domain.TokenInfo;
+import com.ffuntree.ffunfun.user.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -14,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;

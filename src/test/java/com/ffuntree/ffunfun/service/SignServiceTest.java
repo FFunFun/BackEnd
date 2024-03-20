@@ -1,11 +1,12 @@
 package com.ffuntree.ffunfun.service;
 
-import com.ffuntree.ffunfun.data.common.TokenInfo;
-import com.ffuntree.ffunfun.data.user.SocialType;
-import com.ffuntree.ffunfun.data.user.User;
-import com.ffuntree.ffunfun.data.user.UserSignInDto;
-import com.ffuntree.ffunfun.data.user.UserSignUpDto;
-import com.ffuntree.ffunfun.repository.UserRepository;
+import com.ffuntree.ffunfun.sign.domain.TokenInfo;
+import com.ffuntree.ffunfun.sign.SignService;
+import com.ffuntree.ffunfun.user.domain.SocialType;
+import com.ffuntree.ffunfun.user.domain.User;
+import com.ffuntree.ffunfun.user.domain.UserSignInDto;
+import com.ffuntree.ffunfun.user.domain.UserSignUpDto;
+import com.ffuntree.ffunfun.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

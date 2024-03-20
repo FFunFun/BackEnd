@@ -1,7 +1,7 @@
 package com.ffuntree.ffunfun.service;
 
-import com.ffuntree.ffunfun.data.user.UserSignInDto;
-import com.ffuntree.ffunfun.data.user.UserSignUpDto;
+import com.ffuntree.ffunfun.user.domain.UserSignInDto;
+import com.ffuntree.ffunfun.user.domain.UserSignUpDto;
 
 public class SignStep {
 

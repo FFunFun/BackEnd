@@ -1,13 +1,16 @@
 package com.ffuntree.ffunfun.service;
 
-import com.ffuntree.ffunfun.data.ffun.FFunRoom;
-import com.ffuntree.ffunfun.data.user.SocialType;
-import com.ffuntree.ffunfun.data.user.User;
-import com.ffuntree.ffunfun.data.user.UserSignUpDto;
-import com.ffuntree.ffunfun.exception.ffun.FFunAlreadyJoinedException;
-import com.ffuntree.ffunfun.exception.ffun.FFunPasswordWrong;
-import com.ffuntree.ffunfun.repository.FFunRepository;
-import com.ffuntree.ffunfun.repository.UserRepository;
+import com.ffuntree.ffunfun.ffunroom.FFunService;
+import com.ffuntree.ffunfun.ffunroom.domain.FFunRoom;
+import com.ffuntree.ffunfun.sign.SignService;
+import com.ffuntree.ffunfun.user.UserService;
+import com.ffuntree.ffunfun.user.domain.SocialType;
+import com.ffuntree.ffunfun.user.domain.User;
+import com.ffuntree.ffunfun.user.domain.UserSignUpDto;
+import com.ffuntree.ffunfun.ffunroom.exception.FFunAlreadyJoinedException;
+import com.ffuntree.ffunfun.ffunroom.exception.FFunPasswordWrong;
+import com.ffuntree.ffunfun.ffunroom.FFunRepository;
+import com.ffuntree.ffunfun.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

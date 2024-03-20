@@ -1,7 +1,7 @@
 package com.ffuntree.ffunfun.security;
 
-import com.ffuntree.ffunfun.repository.UserRepository;
-import com.ffuntree.ffunfun.service.CustomUserDetailsService;
+import com.ffuntree.ffunfun.user.UserRepository;
+import com.ffuntree.ffunfun.user.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

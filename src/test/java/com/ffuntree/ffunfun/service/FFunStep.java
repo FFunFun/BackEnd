@@ -1,6 +1,6 @@
 package com.ffuntree.ffunfun.service;
 
-import com.ffuntree.ffunfun.data.ffun.FFunRoomRegisterDto;
+import com.ffuntree.ffunfun.ffunroom.domain.FFunRoomRegisterDto;
 
 public class FFunStep {
 
