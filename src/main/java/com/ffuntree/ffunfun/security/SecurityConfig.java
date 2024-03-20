@@ -1,5 +1,7 @@
 package com.ffuntree.ffunfun.security;
 
+import com.ffuntree.ffunfun.repository.UserRepository;
+import com.ffuntree.ffunfun.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -41,10 +44,11 @@ public class SecurityConfig {
                         .requestMatchers("api/v1/user/sign-up").permitAll()
                         .requestMatchers("api/v1/user/social/**").permitAll()
                         .requestMatchers("api/v1/user/social/google").permitAll()
+                        .requestMatchers("test/test").permitAll()
                         .anyRequest().authenticated())
 
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .userDetailsService(new CustomUserDetailsService(passwordEncoder(), userRepository))
                 .build();
     }
 

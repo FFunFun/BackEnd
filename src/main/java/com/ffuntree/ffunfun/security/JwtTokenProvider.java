@@ -1,6 +1,10 @@
 package com.ffuntree.ffunfun.security;
 
+import com.ffuntree.ffunfun.data.common.AuthenticatedUser;
 import com.ffuntree.ffunfun.data.common.TokenInfo;
+import com.ffuntree.ffunfun.data.user.User;
+import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
+import com.ffuntree.ffunfun.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -26,8 +30,10 @@ public class JwtTokenProvider {
     private final Key key;
     private static final Long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 7; // 7일
     private static final Long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 30; // 30일
+    private final UserRepository userRepository;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UserRepository userRepository) {
+        this.userRepository = userRepository;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -60,9 +66,7 @@ public class JwtTokenProvider {
 
         // 클레임에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-
-        // UserDetails 객체를 만들어서 Authentication 리턴
-        UserDetails principal = new org.springframework.security.core.userdetails.User(claims.getSubject(), "", authorities);
+        AuthenticatedUser principal = new AuthenticatedUser(claims.getSubject(), authorities);
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
@@ -85,7 +89,7 @@ public class JwtTokenProvider {
 
     private Claims parseClaims(String accessToken) {
         try {
-            if(accessToken.startsWith("Bearer ")) {
+            if (accessToken.startsWith("Bearer ")) {
                 accessToken = accessToken.substring(7);
             }
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
