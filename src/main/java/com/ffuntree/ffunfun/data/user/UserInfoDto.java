@@ -4,8 +4,10 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoomSimpleInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
+@Slf4j
 @Data
 @AllArgsConstructor
 @Builder
@@ -25,8 +27,8 @@ public class UserInfoDto {
                 .studentEmail(user.getStudentEmail())
                 .build();
 
-        if (user.getFfunRoom() == null) {
-            build.setFfunRoomInfo(null);
+        if (user.getFfunRoom() != null) {
+            build.setFfunRoomInfo(FFunRoomSimpleInfoDto.of(user.getFfunRoom()));
         }
 
         return build;
