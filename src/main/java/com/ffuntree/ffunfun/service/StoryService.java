@@ -3,6 +3,7 @@ package com.ffuntree.ffunfun.service;
 import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import com.ffuntree.ffunfun.data.story.Story;
 import com.ffuntree.ffunfun.data.story.StoryRegisterDto;
+import com.ffuntree.ffunfun.data.story.StoryResponseDto;
 import com.ffuntree.ffunfun.exception.ffun.FFunNotFoundException;
 import com.ffuntree.ffunfun.exception.story.StoryNotFoundException;
 import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
@@ -36,7 +37,7 @@ public class StoryService {
         storyRepository.deleteById(storyId);
     }
 
-    public Story getStory(Long storyId) {
-        return storyRepository.findById(storyId).orElseThrow(StoryNotFoundException::new);
+    public StoryResponseDto getStory(Long storyId) {
+        return StoryResponseDto.of(storyRepository.findById(storyId).orElseThrow(StoryNotFoundException::new));
     }
 }
