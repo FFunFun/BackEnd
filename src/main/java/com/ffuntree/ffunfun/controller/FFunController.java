@@ -4,6 +4,7 @@ import com.ffuntree.ffunfun.data.common.AuthenticatedUser;
 import com.ffuntree.ffunfun.data.ffun.ExistUserDto;
 import com.ffuntree.ffunfun.data.ffun.FFunRoomInfoMemberDto;
 import com.ffuntree.ffunfun.data.ffun.FFunRoomRegisterDto;
+import com.ffuntree.ffunfun.data.ffun.FFunRoomUpdateDto;
 import com.ffuntree.ffunfun.service.FFunService;
 import com.ffuntree.ffunfun.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,15 @@ public class FFunController {
     public void leaveFFun(@AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
         String userEmail = authenticatedUser.getEmail();
         ffunService.leaveFFun(userEmail);
+    }
+
+    @PutMapping("/{ffunRoomId}")
+    public void updateFFunRoom(
+            @AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+            @PathVariable Long ffunRoomId,
+            @RequestBody FFunRoomUpdateDto fFunRoomUpdateDto) {
+        String userEmail = authenticatedUser.getEmail();
+        ffunService.updateFFunRoom(ffunRoomId, userEmail, fFunRoomUpdateDto);
     }
 
 }
