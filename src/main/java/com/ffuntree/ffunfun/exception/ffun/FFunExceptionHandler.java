@@ -24,4 +24,8 @@ public class FFunExceptionHandler {
         return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
     }
 
+    @ExceptionHandler(NotFFunMemberException.class)
+    public ResponseEntity<ErrorResponseDto> handleFFunNotMemberException(NotFFunMemberException exception) {
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(exception.getMessage()));
+    }
 }
