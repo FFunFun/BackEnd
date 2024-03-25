@@ -1,19 +1,19 @@
 package com.ffuntree.ffunfun.service;
 
-import com.ffuntree.ffunfun.data.ffun.ExistUserDto;
-import com.ffuntree.ffunfun.data.ffun.FFunRoom;
-import com.ffuntree.ffunfun.data.ffun.FFunRoomInfoMemberDto;
-import com.ffuntree.ffunfun.data.ffun.FFunRoomRegisterDto;
+import com.ffuntree.ffunfun.data.ffun.*;
 import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.exception.ffun.FFunAlreadyJoinedException;
 import com.ffuntree.ffunfun.exception.ffun.FFunNotFoundException;
 import com.ffuntree.ffunfun.exception.ffun.FFunPasswordWrong;
+import com.ffuntree.ffunfun.exception.ffun.NotFFunMemberException;
 import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
 import com.ffuntree.ffunfun.repository.FFunRepository;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -45,7 +45,7 @@ public class FFunService {
     public void joinFFun(String userEmail, Long ffunRoomId, String password) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
 
-        if(user.alreadyJoinedFFun()) {
+        if (user.alreadyJoinedFFun()) {
             throw new FFunAlreadyJoinedException();
         }
 
@@ -74,5 +74,17 @@ public class FFunService {
     public void leaveFFun(String userEmail) {
         User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
         user.leaveFFun();
+    }
+
+    @Transactional
+    public void updateFFunRoom(Long ffunRoomId, String userEmail, FFunRoomUpdateDto fFunRoomUpdateDto) {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+        FFunRoom ffunRoom = ffunRepository.findById(ffunRoomId).orElseThrow(FFunNotFoundException::new);
+
+        if (!Objects.equals(user.getFfunRoom().getFfunRoomId(), ffunRoomId)) {
+            throw new NotFFunMemberException();
+        }
+
+        ffunRoom.update(fFunRoomUpdateDto);
     }
 }

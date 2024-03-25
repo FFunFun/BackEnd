@@ -55,4 +55,9 @@ public class FFunRoom {
         newManager.registerFFunManager();
     }
 
+    public void update(FFunRoomUpdateDto ffunRoomEditDto) {
+        this.name = ffunRoomEditDto.getName();
+        this.description = ffunRoomEditDto.getDescription();
+        this.password = ffunRoomEditDto.getPassword();
+    }
 }
