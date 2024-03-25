@@ -81,7 +81,8 @@ public class FFunService {
         User user = userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
         FFunRoom ffunRoom = ffunRepository.findById(ffunRoomId).orElseThrow(FFunNotFoundException::new);
 
-        if (!Objects.equals(user.getFfunRoom().getFfunRoomId(), ffunRoomId)) {
+        if (user.getFfunRoom() == null ||
+                !Objects.equals(user.getFfunRoom().getFfunRoomId(), ffunRoomId)) {
             throw new NotFFunMemberException();
         }
 
