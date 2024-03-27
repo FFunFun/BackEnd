@@ -5,15 +5,19 @@ import com.ffuntree.ffunfun.data.story.Story;
 import com.ffuntree.ffunfun.data.story.StoryRegisterDto;
 import com.ffuntree.ffunfun.data.story.StoryResponseDto;
 import com.ffuntree.ffunfun.data.story.StoryUpdateDto;
+import com.ffuntree.ffunfun.data.user.User;
 import com.ffuntree.ffunfun.exception.ffun.FFunNotFoundException;
 import com.ffuntree.ffunfun.exception.story.StoryNotFoundException;
 import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
 import com.ffuntree.ffunfun.repository.StoryRepository;
+import com.ffuntree.ffunfun.repository.StoryUserRepository;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,17 +26,17 @@ public class StoryService {
 
     private final StoryRepository storyRepository;
     private final UserRepository userRepository;
+    private final StoryUserRepository storyUserRepository;
 
     public Long registerStory(String email, StoryRegisterDto storyRegisterDto) {
-        log.info("[StoryService] registerStory - email : {}", email);
-        log.info("[registerStory] datetime : {}", storyRegisterDto.getDatetime());
-
         FFunRoom fFunRoom = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new).getFfunRoom();
         if (fFunRoom == null) {
             throw new FFunNotFoundException();
         }
 
-        Story savedStory = storyRepository.save(storyRegisterDto.toEntity(fFunRoom));
+        List<User> participants = userRepository.findAllById(storyRegisterDto.getParticipants());
+        Story savedStory = storyRepository.save(storyRegisterDto.toEntity(fFunRoom, participants));
+
         return savedStory.getStoryId();
     }
 
@@ -51,6 +55,9 @@ public class StoryService {
     @Transactional
     public void updateStory(Long storyId, StoryUpdateDto storyUpdateDto) {
         Story story = storyRepository.findById(storyId).orElseThrow(StoryNotFoundException::new);
-        story.update(storyUpdateDto);
+        List<User> participants = userRepository.findAllById(storyUpdateDto.getParticipants());
+        storyUserRepository.deleteAllByStory(story);
+        story.update(storyUpdateDto, participants);
     }
+
 }

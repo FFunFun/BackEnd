@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +25,8 @@ public class StoryResponseDto {
 
     private FFunRoomSimpleInfoDto ffunRoomInfo;
 
+    private List<Long> participants;
+
     public static StoryResponseDto of(Story story) {
         return StoryResponseDto.builder()
                 .id(story.getStoryId())
@@ -31,6 +34,10 @@ public class StoryResponseDto {
                 .content(story.getContent())
                 .datetime(story.getDatetime().toString())
                 .ffunRoomInfo(FFunRoomSimpleInfoDto.of(story.getFfunRoom()))
+                .participants(story.getStoryUsers()
+                        .stream()
+                        .map(storyUser -> storyUser.getUser().getId())
+                        .toList())
                 .build();
     }
 }
