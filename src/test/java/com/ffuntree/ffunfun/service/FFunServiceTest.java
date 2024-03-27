@@ -9,6 +9,7 @@ import com.ffuntree.ffunfun.exception.ffun.FFunPasswordWrong;
 import com.ffuntree.ffunfun.repository.FFunRepository;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +32,7 @@ class FFunServiceTest {
     @Autowired
     private SignService signService;
 
-    @AfterEach
+    @BeforeEach
     void setUp() {
         ffunRepository.deleteAll();
         userRepository.deleteAll();

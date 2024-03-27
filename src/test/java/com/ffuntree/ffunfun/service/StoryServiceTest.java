@@ -70,7 +70,11 @@ class StoryServiceTest {
         ffunService.makeFFunRoom(FFunStep.뻔_정보_생성(), 회원가입_정보.getEmail());
 
         // when
-        StoryRegisterDto storyRegisterDto = StoryRegisterDto.builder().title("제목").content("내용").datetime("20210101231232342343435").build();
+        StoryRegisterDto storyRegisterDto = StoryRegisterDto
+                .builder()
+                .title("제목")
+                .content("내용")
+                .datetime("20210101231232342343435").build();
 
         // then
         assertThrows(DateTimeParseException.class, () -> storyService.registerStory(회원가입_정보.getEmail(), storyRegisterDto));

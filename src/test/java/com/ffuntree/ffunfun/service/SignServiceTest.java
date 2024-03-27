@@ -7,6 +7,7 @@ import com.ffuntree.ffunfun.data.user.UserSignInDto;
 import com.ffuntree.ffunfun.data.user.UserSignUpDto;
 import com.ffuntree.ffunfun.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +23,7 @@ class SignServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    @AfterEach
+    @BeforeEach
     void setUp() {
         userRepository.deleteAll();
     }
