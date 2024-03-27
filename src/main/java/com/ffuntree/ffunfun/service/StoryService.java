@@ -36,6 +36,10 @@ public class StoryService {
     }
 
     public void deleteStory(Long storyId) {
+        // 스토리 삭제 체크
+        if (!storyRepository.existsById(storyId)) {
+            throw new StoryNotFoundException();
+        }
         storyRepository.deleteById(storyId);
     }
 
