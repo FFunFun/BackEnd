@@ -5,6 +5,7 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoomSimpleInfoDto;
 import com.ffuntree.ffunfun.data.story.Story;
 import com.ffuntree.ffunfun.data.story.StoryRegisterDto;
 import com.ffuntree.ffunfun.data.story.StoryResponseDto;
+import com.ffuntree.ffunfun.data.story.StoryUpdateDto;
 import com.ffuntree.ffunfun.service.FFunService;
 import com.ffuntree.ffunfun.service.StoryService;
 import com.ffuntree.ffunfun.service.UserService;
@@ -35,6 +36,11 @@ public class StoryController {
     @DeleteMapping("/{storyId}")
     public void deleteStory(@PathVariable Long storyId) {
         storyService.deleteStory(storyId);
+    }
+
+    @PutMapping("/{storyId}")
+    public void updateStory(@PathVariable Long storyId, @RequestBody StoryUpdateDto storyUpdateDto) {
+        storyService.updateStory(storyId, storyUpdateDto);
     }
 
 }

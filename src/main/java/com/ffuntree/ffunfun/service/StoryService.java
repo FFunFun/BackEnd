@@ -4,6 +4,7 @@ import com.ffuntree.ffunfun.data.ffun.FFunRoom;
 import com.ffuntree.ffunfun.data.story.Story;
 import com.ffuntree.ffunfun.data.story.StoryRegisterDto;
 import com.ffuntree.ffunfun.data.story.StoryResponseDto;
+import com.ffuntree.ffunfun.data.story.StoryUpdateDto;
 import com.ffuntree.ffunfun.exception.ffun.FFunNotFoundException;
 import com.ffuntree.ffunfun.exception.story.StoryNotFoundException;
 import com.ffuntree.ffunfun.exception.user.UserNotFoundException;
@@ -12,6 +13,7 @@ import com.ffuntree.ffunfun.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,5 +41,11 @@ public class StoryService {
 
     public StoryResponseDto getStory(Long storyId) {
         return StoryResponseDto.of(storyRepository.findById(storyId).orElseThrow(StoryNotFoundException::new));
+    }
+
+    @Transactional
+    public void updateStory(Long storyId, StoryUpdateDto storyUpdateDto) {
+        Story story = storyRepository.findById(storyId).orElseThrow(StoryNotFoundException::new);
+        story.update(storyUpdateDto);
     }
 }

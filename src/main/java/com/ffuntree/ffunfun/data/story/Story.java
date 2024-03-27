@@ -28,4 +28,10 @@ public class Story {
     @JoinColumn(name = "ffun_room_id")
     private FFunRoom ffunRoom;
 
+    public void update(StoryUpdateDto storyUpdateDto) {
+        this.title = storyUpdateDto.getTitle();
+        this.content = storyUpdateDto.getContent();
+        this.datetime = LocalDateTime.parse(storyUpdateDto.getDatetime());
+    }
+
 }
