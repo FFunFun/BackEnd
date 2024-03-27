@@ -23,7 +23,7 @@ public class StoryService {
     private final StoryRepository storyRepository;
     private final UserRepository userRepository;
 
-    public void registerStory(String email, StoryRegisterDto storyRegisterDto) {
+    public Long registerStory(String email, StoryRegisterDto storyRegisterDto) {
         log.info("[StoryService] registerStory - email : {}", email);
         log.info("[registerStory] datetime : {}", storyRegisterDto.getDatetime());
 
@@ -32,7 +32,8 @@ public class StoryService {
             throw new FFunNotFoundException();
         }
 
-        storyRepository.save(storyRegisterDto.toEntity(fFunRoom));
+        Story savedStory = storyRepository.save(storyRegisterDto.toEntity(fFunRoom));
+        return savedStory.getStoryId();
     }
 
     public void deleteStory(Long storyId) {
